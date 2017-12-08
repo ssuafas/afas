@@ -140,8 +140,6 @@ public class MainActivity extends AppCompatActivity {
         naverRecognizer = new NaverRecognizer(this, handler, CLIENT_ID);
 
 
-        btnStart.performClick();
-        Toast.makeText(getApplicationContext(),"강제로눌림",Toast.LENGTH_SHORT);
 
     }
 
