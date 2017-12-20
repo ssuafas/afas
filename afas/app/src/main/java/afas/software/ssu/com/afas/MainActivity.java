@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btnStart;
     private String mResult;
 
+    private Button btn;
+
     private AudioWriterPCM writer;
 
     // Handle speech recognition Messages.
@@ -83,13 +85,15 @@ public class MainActivity extends AppCompatActivity {
 //                mResult = strBuf.toString();
 
                 if(mResult.contains("날씨"))
-                    mResult = "오늘 날씨는 영하 5도 입니다";
+                    mResult = "";
 //                    txtResult.setText("날씨에관련된설명");
 
 
                 if(mResult.contains("노래"))
-                    mResult = "자이온티 피처링 이문세의 눈입니다";
+                    mResult = "현재 시각 12월 15일 3시 기준 노래 1위는 트와이스의 하트쉐이커입니다";
 
+                if(mResult.contains("고마워"))
+                    mResult = "별 말씀을요";
 
                 myTTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
                     @Override
@@ -136,9 +140,31 @@ public class MainActivity extends AppCompatActivity {
         btnStart = (Button) findViewById(R.id.btn_start);
         btnStart.setOnClickListener(mClickListener);
 
+        btn = (Button)findViewById(R.id.button);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                myTTS = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                    String result = "안녕하세요 혜민님 오늘은 12월 15일 날씨는 흐림입니다. 현재 기온은 영상 1도 강수확률은 60% 입니다.";
+                    @Override
+                    public void onInit(int status) {
+                        if(status != ERROR) {
+                            // 언어를 선택한다.
+                            myTTS.setLanguage(Locale.KOREAN);
+                            myTTS.speak(result,TextToSpeech.QUEUE_FLUSH, null);
+                        }
+                    }
+                });
+
+            }
+        });
+
         handler = new RecognitionHandler(this);
         naverRecognizer = new NaverRecognizer(this, handler, CLIENT_ID);
 
+        btnStart.performClick();
 
 
     }
@@ -187,14 +213,16 @@ public class MainActivity extends AppCompatActivity {
     Button.OnClickListener mClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Toast.makeText(getApplicationContext(),"강제로눌림",Toast.LENGTH_SHORT);
+            Toast.makeText(getApplicationContext(),"강제로눌림",Toast.LENGTH_SHORT).show();
             if(!naverRecognizer.getSpeechRecognizer().isRunning()) {
                 // Start button is pushed when SpeechRecognizer's state is inactive.
                 // Run SpeechRecongizer by calling recognize().
+                Toast.makeText(getApplicationContext(),"강제로눌림1",Toast.LENGTH_SHORT).show();
                 mResult = "";
                 txtResult.setText("Connecting...");
                 btnStart.setText(R.string.str_stop);
                 naverRecognizer.recognize();
+
             } else {
                 Log.d(TAG, "stop and wait Final Result");
                 btnStart.setEnabled(false);
@@ -204,6 +232,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+
 //
 //        @Override
 //        public void onClick(View v) {

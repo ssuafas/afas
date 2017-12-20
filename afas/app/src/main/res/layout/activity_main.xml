@@ -25,4 +25,13 @@
         android:layout_centerHorizontal="true"
         android:singleLine="false" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/btn_start"
+        android:layout_below="@+id/txt_result"
+        android:layout_marginTop="91dp"
+        android:text="Button" />
+
 </RelativeLayout>
